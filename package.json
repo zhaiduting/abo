@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/zhaiduting/ext/issues"
   },
-  "homepage": "https://github.com/zhaiduting/ext#readme"
+  "homepage": "https://github.com/zhaiduting/ext#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
