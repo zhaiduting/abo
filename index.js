@@ -6,12 +6,12 @@ function ext(master, closet) {
 
     f.closet = closet instanceof Array ? [...closet] : [];
 
-    f.wear = function (key, handler) {
-        this.closet.push({key, handler});
+    f.wear = function () {
+        this.closet.push(...arguments);
     };
 
     f.grow = function () {
-        return ext(f, this.closet);
+        return ext(master, this.closet);
     };
 
     return f;
