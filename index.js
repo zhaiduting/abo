@@ -1,6 +1,7 @@
 function ext(master, closet) {
     function f() {
-        return master.call(this, ...arguments);
+        if (typeof master === 'function')
+            return master.call(this, ...arguments);
     }
 
     f.closet = closet instanceof Array ? [...closet] : [];
