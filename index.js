@@ -4,6 +4,8 @@ function ext(master, closet) {
             return master.call(this, ...arguments);
     }
 
+    Object.assign(f, master);
+
     f.closet = closet instanceof Array ? [...closet] : [];
 
     f.wear = function () {
