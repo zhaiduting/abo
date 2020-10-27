@@ -1,20 +1,26 @@
-function ext(master, closet) {
+function ext(master) {
     function f() {
         if (typeof master === 'function')
-            return master.call(this, ...arguments);
+            return master.call(f, ...arguments);
     }
 
-    Object.assign(f, master);
-
-    f.closet = closet instanceof Array ? [...closet] : [];
-
+    f.closet = [];
     f.wear = function () {
-        this.closet.push(...arguments);
+        f.closet.push(...arguments);
+    };
+
+    f.assign = function () {
+        Object.assign(f, ...arguments);
     };
 
     f.grow = function () {
-        return ext(master, this.closet);
+        let g = ext(master);
+        g.wear(f.closet);
+        g.assign(f);
+        return g;
     };
+
+    f.ext = ext;
 
     return f;
 }
