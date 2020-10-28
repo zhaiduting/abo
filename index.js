@@ -1,23 +1,39 @@
 function ext(master) {
     function f() {
         if (typeof master === 'function')
-            return master.call(f, ...arguments);    //Error: call(this, ...arguments)
+            return master.apply(f, arguments);    //Error: apply(this, arguments)
     }
 
     f.closet = [];
     f.wear = function () {
-        this.closet.push(...arguments);
+        var i, arg;
+        var n = arguments.length;
+        for (i = 0; i < n; i++) {
+            arg = arguments[i];
+            this.closet.push(arg);
+        }
     };
 
     f.assign = function () {
-        Object.assign(this, ...arguments);
+        var i, arg;
+        var n = arguments.length;
+        for (i = 0; i < n; i++) {
+            arg = arguments[i];
+            for (var key in arg) {
+                if (Object.hasOwnProperty.call(arg, key)) {
+                    this[key] = arg[key];
+                }
+            }
+        }
     };
 
     f.grow = function (chief) {
-        let g = ext(chief || master);
+        var g = ext(chief || master);
         g.assign(this);
         g.closet = [];
-        g.wear(...this.closet);
+        this.closet.forEach(function (cl) {
+            g.wear(cl);
+        });
         return g;
     };
 
