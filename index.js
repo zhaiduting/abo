@@ -31,9 +31,10 @@ function ext(master) {
         var g = ext(chief || master);
         g.assign(this);
         g.closet = [];
-        this.closet.forEach(function (cl) {
-            g.wear(cl);
-        });
+        var i, n = this.closet.length;
+        for (i = 0; i < n; i++) {
+            g.wear(this.closet[i]);
+        }
         return g;
     };
 
