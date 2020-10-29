@@ -1,7 +1,7 @@
-function ext(master) {
+function abo(mind) {
     function f() {
-        if (typeof master === 'function')
-            return master.apply(f, arguments);    //Error: apply(this, arguments)
+        if (typeof mind === 'function')
+            return mind.apply(f, arguments);    //Error: apply(this, arguments)
     }
 
     f.closet = [];
@@ -27,8 +27,8 @@ function ext(master) {
         }
     };
 
-    f.grow = function (chief) {
-        var g = ext(chief || master);
+    f.grow = function (idea) {
+        var g = abo(idea || mind);
         g.assign(this);
         g.closet = [];
         var i, n = this.closet.length;
@@ -38,9 +38,9 @@ function ext(master) {
         return g;
     };
 
-    f.ext = ext;
+    f.abo = abo;
 
     return f;
 }
 
-export default ext;
+export default abo;
