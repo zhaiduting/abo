@@ -46,7 +46,7 @@ function assign(target, key, right, replace) {
             Array.prototype.push.call(target[key], right);
             break;
         case 'object':
-            if (replace || typeOfLeft !== 'object' || typeOfLeft !== 'array')
+            if (replace || typeOfLeft !== 'object' && typeOfLeft !== 'array')
                 target[key] = {};
             set(target[key], right);
             break;
