@@ -22,6 +22,10 @@ test('f1.use(object) 调用后拿到的属性', () => {
         }
     });
 
+    f1.use({
+        __proto__: {key: 'Will not be used'}
+    });
+
     expect(f1.popCloset).toBeDefined();
     expect(f1.closet).toEqual([]);
 

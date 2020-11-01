@@ -38,7 +38,8 @@ test('使用 f2.use() 可以对 f2.defaultOptions 属性进行扩展', () => {
     f2.use({
         defaultInfo: {
             age: 100,
-            email: 'zhaiduting@163.com'
+            email: 'zhaiduting@163.com',
+            __proto__: {key: 'Will not be used'}
         }
     });
     expect(f2.defaultInfo).toEqual({
