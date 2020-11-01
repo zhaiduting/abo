@@ -9,7 +9,7 @@ test('f1.use(object) 调用后拿到的属性', () => {
             this.closet.pop();
         },
         pushCloset(el) {
-            this.closet.push(el)
+            this.closet.push(el);
         }
     };
     f1 = abo();
@@ -38,8 +38,8 @@ test('f1.use(object) 调用后拿到的属性', () => {
 
 test('从外界注入的属性及方法，不仅可以被 f1 继承，也可以被 f1 传给新生的对象 f2', () => {
     f2 = f1.grow(f1);
-    f2.pushCloset('f2-1')
-    f2.pushCloset('f2-2')
+    f2.pushCloset('f2-1');
+    f2.pushCloset('f2-2');
     expect(f2.closet).toEqual(['f2-1', 'f2-2']);
-    expect(f2.joinCloset(',')).toBe('f2-1,f2-2')
+    expect(f2.joinCloset(',')).toBe('f2-1,f2-2');
 });
