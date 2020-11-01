@@ -43,7 +43,7 @@ function assign(target, key, right, reset) {
         case 'array':
             if (reset || typeOfLeft !== 'array')
                 target[key] = [];
-            Array.prototype.push.call(target[key], right);
+            Array.prototype.push.apply(target[key], right);
             break;
         case 'object':
             if (reset || typeOfLeft !== 'object' && typeOfLeft !== 'array')
