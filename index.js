@@ -15,7 +15,12 @@ function abo(mind) {
         return g;
     };
 
-    f.use = function (funcArrObj, ignoreExisted) {
+    f.use = function (funcArrObj, ignoreExisted, asProperty) {
+        if (typeof asProperty === 'string') {
+            var obj = {};
+            obj[asProperty] = funcArrObj;
+            return this.use(obj, ignoreExisted);
+        }
         var reset = ignoreExisted;
         var type = funcArrObj instanceof Array ? 'array' : typeof funcArrObj;
         if (type === 'array') {
