@@ -1,7 +1,7 @@
 function abo(mind) {
     function f() {
         if (typeof mind === 'function')
-            return mind.apply(f, arguments);    //Error: apply(this, arguments)
+            return mind.apply(f, arguments);
     }
 
     f.closet = [];
@@ -11,7 +11,7 @@ function abo(mind) {
 
     f.grow = function (idea) {
         var g = abo(idea || mind);
-        g.use(this);
+        g.use(f);
         return g;
     };
 
@@ -31,7 +31,8 @@ function abo(mind) {
             for (var key in funcArrObj) {
                 if (!Object.hasOwnProperty.call(funcArrObj, key))
                     continue;
-                assign(this, key, funcArrObj[key], reset);
+                if(key !== 'grow')
+                    assign(this, key, funcArrObj[key], reset);
             }
         }
     };
