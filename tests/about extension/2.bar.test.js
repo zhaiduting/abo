@@ -2,7 +2,7 @@ import foo from './1.foo.test'
 import {expect} from "@jest/globals";
 
 /*
-  使用构造函数 foo 需注意，无需使用 new 运输即可得到对象
+  使用构造函数 foo 需注意，无需使用 new 运算即可得到对象
   如果执意调用 new 运算，得到的结果也是一样的
   When using the constructor foo(), no need to use `new foo()`,
   If insist on `new foo()`, will get the same result.

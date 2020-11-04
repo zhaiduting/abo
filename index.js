@@ -1,7 +1,9 @@
 function abo(mind) {
     function f() {
-        if (typeof mind === 'function')
+        if (typeof mind === 'function'){
+            f.hook = this;
             return mind.apply(f, arguments);
+        }
     }
 
     f.closet = [];
