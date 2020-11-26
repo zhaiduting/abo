@@ -1,6 +1,6 @@
 function abo(mind) {
     function f() {
-        if (typeof mind === 'function'){
+        if (typeof mind === 'function') {
             f.hook = this;
             return mind.apply(f, arguments);
         }
@@ -14,6 +14,7 @@ function abo(mind) {
     f.grow = function (idea) {
         var g = abo(idea || mind);
         g.use(f);
+        g.super = f;
         return g;
     };
 
@@ -31,9 +32,9 @@ function abo(mind) {
             Array.prototype.push.apply(this.closet, funcArrObj);
         } else if (type === 'object' || type === 'function') {
             for (var key in funcArrObj) {
-                if (!Object.hasOwnProperty.call(funcArrObj, key))
+                if (!Object.prototype.hasOwnProperty.call(funcArrObj, key))
                     continue;
-                if(key !== 'grow')
+                if (key !== 'grow')
                     assign(this, key, funcArrObj[key], reset);
             }
         }
@@ -65,7 +66,7 @@ function assign(target, key, right, reset) {
 
 function set(left, right) {
     for (var k in right) {
-        if (!Object.hasOwnProperty.call(right, k))
+        if (!Object.prototype.hasOwnProperty.call(right, k))
             continue;
         left[k] = right[k];
     }
