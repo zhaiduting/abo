@@ -1,32 +1,31 @@
-interface Abo {
-
-    (mind: any): any;
+export interface IAbo<T = any, Super = any> {
+    (mind?: any): any;
 
     closet: any[];
 
     wear(element: any, ...restElements: any[]): void;
 
-    grow(idea: any): Abo;
+    grow(...idea: any[]): T;
 
     use(
         funcArrObj: any,
-        ignoreExisted?: boolean,
-        asProperty?: string
+        ignoreExisted?: boolean
     ): void;
 
-    abo: (mind: any) => Abo;
-    super?: Abo;
+    abo: (mind: any) => IAbo;
+    super?: IAbo<Super>;
 
     [otherProps: string]: any;
 }
 
-function abo(mind?: any): Abo {
-    let f = <any>function (this: any) {
+function abo(mind?: any) {
+    // @ts-ignore
+    let f = function (this: any) {
         if (typeof mind === 'function') {
             f.hook = this;
             return mind.apply(f, arguments);
         }
-    };
+    } as IAbo;
 
     f.closet = [];
     f.wear = function () {
@@ -41,18 +40,14 @@ function abo(mind?: any): Abo {
         return g;
     };
 
-    f.use = function (funcArrObj: any, ignoreExisted = false, asProperty?: string) {
-        if (typeof asProperty === 'string') {
-            let obj: any = {};
-            obj[asProperty] = funcArrObj;
-            return this.use(obj, ignoreExisted);
-        }
+    f.use = function (funcArrObj: any, ignoreExisted?: boolean) {
         let reset = ignoreExisted;
         let type = funcArrObj instanceof Array ? 'array' : typeof funcArrObj;
         if (type === 'array') {
             if (reset)
                 this.closet = [];
-            Array.prototype.push.apply(this.closet, funcArrObj as Array<any>);
+            // @ts-ignore
+            Array.prototype.push.apply(this.closet, funcArrObj);
         } else if (type === 'function' || type === 'object') {
             for (let key in funcArrObj) {
                 if (!Object.prototype.hasOwnProperty.call(funcArrObj, key))
@@ -68,7 +63,7 @@ function abo(mind?: any): Abo {
     return f;
 }
 
-function assign(target: any, key: any, right: any, reset: boolean) {
+function assign(target: any, key: any, right: any, reset: boolean = false) {
     let typeOfLeft = target[key] instanceof Array ? 'array' : typeof target[key];
     let typeOfRight = right instanceof Array ? 'array' : typeof right;
     if (typeOfRight === 'array') {
