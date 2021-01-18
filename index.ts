@@ -13,7 +13,7 @@ export interface IAbo<T = any, Super = any> {
     ): void;
 
     abo: (mind: any) => IAbo;
-    super?: IAbo<Super>;
+    super: IAbo<Super>;
 
     [otherProps: string]: any;
 }
@@ -46,7 +46,6 @@ function abo(mind?: any) {
         if (type === 'array') {
             if (reset)
                 this.closet = [];
-            // @ts-ignore
             Array.prototype.push.apply(this.closet, funcArrObj);
         } else if (type === 'function' || type === 'object') {
             for (let key in funcArrObj) {
