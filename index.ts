@@ -1,3 +1,4 @@
+/*
 export interface IAbo<T = any, Super = any> {
     (mind?: any): any;
 
@@ -17,15 +18,34 @@ export interface IAbo<T = any, Super = any> {
 
     [otherProps: string]: any;
 }
+*/
+
+interface Abo {
+    (mind?: any): void
+
+    grow: <ExistingType = Abo, NewType = any>() => NewType & ExistingType & { super: ExistingType }
+
+    use(
+        funcArrObj: any,
+        ignoreExisted?: boolean
+    ): void;
+
+    wear(element: any, ...restElements: any[]): void;
+
+    closet: any[];
+
+    abo(): Abo
+
+    [otherProp:string]: any
+}
 
 function abo(mind?: any) {
-    // @ts-ignore
     let f = function (this: any) {
         if (typeof mind === 'function') {
             f.hook = this;
             return mind.apply(f, arguments);
         }
-    } as IAbo;
+    } as Abo;
 
     f.closet = [];
     f.wear = function () {
@@ -33,10 +53,11 @@ function abo(mind?: any) {
         Array.prototype.push.apply(this.closet, arguments);
     };
 
-    f.grow = function (idea: any) {
+    f.grow = function <E = Abo, N = any>(idea?: any): N & E & { super: E } {
         let g = abo(idea || mind);
         g.use(f);
         g.super = f;
+        // @ts-ignore
         return g;
     };
 
@@ -86,4 +107,4 @@ function set(left: any, right: any) {
     }
 }
 
-export default abo;
+export default abo();
