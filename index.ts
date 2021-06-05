@@ -1,72 +1,64 @@
-/*
-export interface IAbo<T = any, Super = any> {
-    (mind?: any): any;
+interface IAbo {
+    (mind?: unknown): void
+
+    grow: <O>(this: O, idea?: unknown) => O & { old: O }
+    Grow: <O>(this: O) => (idea?: unknown) => O & { old: O }
+
+    use<N, E>(
+        this: E,
+        funcArrObj: N,
+        ignoreExisted?: boolean
+    ): N & E;
+
+    wear<T>(this: T, element: any, ...restElements: any[]): T;
 
     closet: any[];
 
-    wear(element: any, ...restElements: any[]): void;
+    abo(): IAbo
 
-    grow(...idea: any[]): T;
+    hook: unknown
+    old: unknown
 
-    use(
-        funcArrObj: any,
-        ignoreExisted?: boolean
-    ): void;
-
-    abo: (mind: any) => IAbo;
-    super: IAbo<Super>;
-
-    [otherProps: string]: any;
-}
-*/
-
-interface Abo {
-    (mind?: any): void
-
-    grow: <ExistingType = Abo, NewType = any>() => NewType & ExistingType & { super: ExistingType }
-
-    use(
-        funcArrObj: any,
-        ignoreExisted?: boolean
-    ): void;
-
-    wear(element: any, ...restElements: any[]): void;
-
-    closet: any[];
-
-    abo(): Abo
-
-    [otherProp:string]: any
+    // [otherProp: string]: any
 }
 
-function abo(mind?: any) {
+function Abo(mind?: any) {
     let f = function (this: any) {
         if (typeof mind === 'function') {
             f.hook = this;
             return mind.apply(f, arguments);
         }
-    } as Abo;
+    } as IAbo;
 
     f.closet = [];
+
+    // @ts-ignore
     f.wear = function () {
         // @ts-ignore
         Array.prototype.push.apply(this.closet, arguments);
+        return f
     };
 
-    f.grow = function <E = Abo, N = any>(idea?: any): N & E & { super: E } {
-        let g = abo(idea || mind);
+    // @ts-ignore
+    f.grow = function (idea?) {
+        let g = Abo(idea || mind);
         g.use(f);
-        g.super = f;
-        // @ts-ignore
+        g.old = f;
         return g;
     };
+    f.Grow = function () {
+        return f.grow;
+    };
 
-    f.use = function (funcArrObj: any, ignoreExisted?: boolean) {
+    // @ts-ignore
+    f.use = function <N, E>(this: E, funcArrObj: N, ignoreExisted?: boolean) {
         let reset = ignoreExisted;
         let type = funcArrObj instanceof Array ? 'array' : typeof funcArrObj;
         if (type === 'array') {
             if (reset)
+                // @ts-ignore
                 this.closet = [];
+            // @ts-ignore
             Array.prototype.push.apply(this.closet, funcArrObj);
         } else if (type === 'function' || type === 'object') {
             for (let key in funcArrObj) {
@@ -76,9 +68,9 @@ function abo(mind?: any) {
                     assign(this, key, funcArrObj[key], reset);
             }
         }
-    };
 
-    f.abo = abo;
+        return f;
+    };
 
     return f;
 }
@@ -107,4 +99,5 @@ function set(left: any, right: any) {
     }
 }
 
-export default abo();
+const abo = Abo();
+export default abo.Grow();
